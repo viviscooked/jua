@@ -211,14 +211,10 @@ export default function ApologyApp() {
                 Moments We Shared
               </h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
                 {[
-                  { img: "https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Virtual Coffee Dates", desc: "Deep conversations across the distance" },
-                  { img: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Late Night Video Calls", desc: "Staying up whole night talking" },
-                  { img: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Sweet Messages", desc: "Texts that bridged the miles between us" },
-                  { img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Gaming Together", desc: "Valorant sessions until sunrise" },
-                  { img: "https://images.unsplash.com/photo-1586243287039-23ba967ccca4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Screen Sharing", desc: "Watching movies together online" },
-                  { img: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Shared Dreams", desc: "Planning our future together" }
+                  { img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Valorant Sessions", desc: "Gaming together until sunrise" },
+                  { img: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Late Night Chats", desc: "Talking for hours about everything" }
                 ].map((memory, i) => (
                   <motion.div
                     key={i}
