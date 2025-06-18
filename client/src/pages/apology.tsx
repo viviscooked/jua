@@ -38,30 +38,69 @@ export default function ApologyApp() {
 
   // Handle keyboard navigation and touch gestures
   useEffect(() => {
+    let isScrolling = false;
+    
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' && currentSection < totalSections - 1) {
-        goToSection(currentSection + 1);
-      } else if (e.key === 'ArrowUp' && currentSection > 0) {
-        goToSection(currentSection - 1);
+      // Only respond to Page Down/Up and Space, not arrow keys for better control
+      if (e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
+        e.preventDefault();
+        if (currentSection < totalSections - 1) {
+          goToSection(currentSection + 1);
+        }
+      } else if (e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
+        e.preventDefault();
+        if (currentSection > 0) {
+          goToSection(currentSection - 1);
+        }
+      }
+    };
+
+    // Disable regular scroll behavior and use wheel events with throttling
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      
+      if (isScrolling) return;
+      
+      const threshold = 100; // Increased threshold for less sensitivity
+      
+      if (Math.abs(e.deltaY) > threshold) {
+        isScrolling = true;
+        
+        if (e.deltaY > 0 && currentSection < totalSections - 1) {
+          // Scroll down - next section
+          goToSection(currentSection + 1);
+        } else if (e.deltaY < 0 && currentSection > 0) {
+          // Scroll up - previous section
+          goToSection(currentSection - 1);
+        }
+        
+        // Reset scrolling flag after delay
+        setTimeout(() => {
+          isScrolling = false;
+        }, 800);
       }
     };
 
     let startY = 0;
     let startX = 0;
+    let isTouching = false;
 
     const handleTouchStart = (e: TouchEvent) => {
       startY = e.touches[0].clientY;
       startX = e.touches[0].clientX;
+      isTouching = true;
     };
 
     const handleTouchEnd = (e: TouchEvent) => {
+      if (!isTouching) return;
+      
       const endY = e.changedTouches[0].clientY;
       const endX = e.changedTouches[0].clientX;
       const diffY = startY - endY;
       const diffX = startX - endX;
 
-      // Vertical swipe detection
-      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 50) {
+      // Increased threshold for less sensitive touch detection
+      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 80) {
         if (diffY > 0 && currentSection < totalSections - 1) {
           // Swipe up - next section
           goToSection(currentSection + 1);
@@ -70,14 +109,18 @@ export default function ApologyApp() {
           goToSection(currentSection - 1);
         }
       }
+      
+      isTouching = false;
     };
 
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('wheel', handleWheel, { passive: false });
     document.addEventListener('touchstart', handleTouchStart);
     document.addEventListener('touchend', handleTouchEnd);
 
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('wheel', handleWheel);
       document.removeEventListener('touchstart', handleTouchStart);
       document.removeEventListener('touchend', handleTouchEnd);
     };
