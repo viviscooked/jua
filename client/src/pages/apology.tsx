@@ -41,6 +41,35 @@ export default function ApologyApp() {
     setSelectedResponse(response);
   };
 
+  const showSurprise = () => {
+    // Add sparkle effect
+    for (let i = 0; i < 15; i++) {
+      setTimeout(() => {
+        const sparkle = document.createElement('div');
+        sparkle.innerHTML = '✨';
+        sparkle.style.position = 'fixed';
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 100 + '%';
+        sparkle.style.fontSize = Math.random() * 20 + 20 + 'px';
+        sparkle.style.pointerEvents = 'none';
+        sparkle.style.zIndex = '1000';
+        sparkle.style.animation = 'sparkle 3s ease-in-out forwards';
+        
+        document.body.appendChild(sparkle);
+        
+        setTimeout(() => {
+          if (sparkle.parentNode) {
+            sparkle.parentNode.removeChild(sparkle);
+          }
+        }, 3000);
+      }, i * 100);
+    }
+  };
+
+  const handleScreenClick = () => {
+    showSurprise();
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden relative">
       {/* Animated Background */}
