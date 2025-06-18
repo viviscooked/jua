@@ -34,12 +34,32 @@ export default function ApologyApp() {
   };
 
   const toggleMusic = () => {
-    setIsPlaying(!isPlaying);
+    const audio = document.getElementById('background-music') as HTMLAudioElement;
+    if (audio) {
+      if (isPlaying) {
+        audio.pause();
+      } else {
+        audio.play().catch((error) => {
+          console.log('Audio play failed:', error);
+          // Show user-friendly message or handle autoplay restrictions
+        });
+      }
+    }
+  };
+
+  const toggleMute = () => {
+    const audio = document.getElementById('background-music') as HTMLAudioElement;
+    if (audio) {
+      audio.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
   };
 
   const handleResponse = (response: string) => {
     setSelectedResponse(response);
   };
+
+  
 
   const showSurprise = () => {
     // Add sparkle effect
@@ -64,10 +84,6 @@ export default function ApologyApp() {
         }, 3000);
       }, i * 100);
     }
-  };
-
-  const handleScreenClick = () => {
-    showSurprise();
   };
 
   return (
@@ -241,7 +257,16 @@ export default function ApologyApp() {
                     transition={{ delay: i * 0.1 }}
                     whileHover={{ y: -5 }}
                   >
-                    <img src={memory.img} alt={memory.title} className="w-full h-48 object-cover" />
+                    <img 
+                      src={memory.img} 
+                      alt={memory.title} 
+                      className="w-full h-48 object-cover" 
+                      onError={(e) => {
+                        console.log('Image failed to load:', memory.img);
+                        e.currentTarget.style.display = 'none';
+                      }}
+                      onLoad={() => console.log('Image loaded successfully:', memory.img)}
+                    />
                     <div className="p-4">
                       <h3 className="text-white font-semibold text-lg">{memory.title}</h3>
                       <p className="text-white/70 text-sm">{memory.desc}</p>
@@ -471,7 +496,7 @@ export default function ApologyApp() {
               {isPlaying ? <Pause className="text-white" size={16} /> : <Play className="text-white" size={16} />}
             </button>
             <button
-              onClick={() => setIsMuted(!isMuted)}
+              onClick={toggleMute}
               className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-300"
             >
               {isMuted ? <VolumeX className="text-white" size={16} /> : <Volume2 className="text-white" size={16} />}
@@ -480,28 +505,23 @@ export default function ApologyApp() {
         </motion.div>
       )}
 
-      {/* Hidden Audio Element */}
+      {/* Audio Element */}
       <audio 
-        ref={(audio) => {
+        id="background-music"
+        loop
+        preload="auto"
+        onLoadedData={() => {
+          const audio = document.getElementById('background-music') as HTMLAudioElement;
           if (audio) {
             audio.volume = 0.3;
-            audio.loop = true;
-            audio.muted = isMuted;
-
-            if (isPlaying && !isMuted) {
-              const playPromise = audio.play();
-              if (playPromise !== undefined) {
-                playPromise.catch(() => console.log('Audio play failed'));
-              }
-            } else {
-              audio.pause();
-            }
           }
         }}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
+        onError={(e) => console.log('Audio error:', e)}
       >
         <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
       </audio>
 
       {/* Enhanced Watermark */}
