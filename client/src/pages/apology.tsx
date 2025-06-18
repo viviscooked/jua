@@ -431,7 +431,7 @@ export default function ApologyApp() {
       </div>
 
       {/* Navigation */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-30">
         {steps.map((_, index) => (
           <button
             key={index}
@@ -446,11 +446,11 @@ export default function ApologyApp() {
       {/* Music Player */}
       {currentStep > 0 && (
         <motion.div
-          className="fixed bottom-8 left-8 bg-black/30 backdrop-blur-lg rounded-full p-4 border border-white/20"
+          className="fixed bottom-20 left-4 bg-black/30 backdrop-blur-lg rounded-full p-3 border border-white/20 z-30"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
         >
-          <div className="flex items-center space-x-3">
+          <div className="flex items-center space-x-2">
             <button
               onClick={toggleMusic}
               className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-300"
@@ -463,17 +463,31 @@ export default function ApologyApp() {
             >
               {isMuted ? <VolumeX className="text-white" size={16} /> : <Volume2 className="text-white" size={16} />}
             </button>
-            <span className="text-white text-sm font-medium hidden sm:block">Our Song</span>
           </div>
-          <audio autoPlay={isPlaying} muted={isMuted} loop>
-            <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
-          </audio>
         </motion.div>
       )}
 
+      {/* Hidden Audio Element */}
+      <audio 
+        ref={(audio) => {
+          if (audio) {
+            audio.volume = 0.3;
+            audio.loop = true;
+            if (isPlaying && !isMuted) {
+              audio.play().catch(() => console.log('Audio play failed'));
+            } else {
+              audio.pause();
+            }
+            audio.muted = isMuted;
+          }
+        }}
+      >
+        <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
+      </audio>
+
       {/* Enhanced Watermark */}
       <motion.div 
-        className="fixed bottom-4 right-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-pink-400/30 shadow-lg"
+        className="fixed bottom-4 right-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-pink-400/30 shadow-lg z-40"
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ delay: 2 }}
