@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ArrowDown, Play, Pause, Volume2, VolumeX, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart } from 'lucide-react';
+import { Heart, ArrowDown, Play, Pause, Volume2, VolumeX, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart, Star, Moon, Zap } from 'lucide-react';
 
 export default function ApologyApp() {
   const [currentStep, setCurrentStep] = useState(0);
@@ -8,6 +8,8 @@ export default function ApologyApp() {
   const [isMuted, setIsMuted] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
   const [selectedResponse, setSelectedResponse] = useState<string | null>(null);
+  const [clickCount, setClickCount] = useState(0);
+  const [showSurprise, setShowSurprise] = useState(false);
 
   const steps = [
     'intro',
@@ -41,8 +43,18 @@ export default function ApologyApp() {
     setSelectedResponse(response);
   };
 
+  const handleScreenClick = () => {
+    setClickCount(prev => prev + 1);
+    if (clickCount > 10) {
+      setShowSurprise(true);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden relative">
+    <div 
+      className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden relative"
+      onClick={handleScreenClick}
+    >
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -153,21 +165,21 @@ export default function ApologyApp() {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.3 }}
                 >
-                  Princess, I've been thinking about us lately, and my heart feels heavy knowing we've had fewer interactions recently.
+                  Princess, I've been thinking about us lately, and my heart feels heavy knowing we've had fewer interactions recently. The distance between us makes every missed conversation feel like an eternity.
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0, x: 30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.6 }}
                 >
-                  I miss our late-night conversations, our gaming sessions that lasted until sunrise, and those moments when we'd talk about everything and nothing.
+                  I miss our late-night video calls, our gaming sessions that lasted until sunrise, and those moments when we'd talk about everything and nothing despite being miles apart.
                 </motion.p>
                 <motion.p
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.9 }}
                 >
-                  You mean more to me than words can express, and I never want you to feel forgotten or unimportant in my life.
+                  You mean more to me than words can express, and being so far away makes me cherish every digital moment we share even more.
                 </motion.p>
               </div>
               
@@ -201,12 +213,12 @@ export default function ApologyApp() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
                 {[
-                  { img: "https://images.unsplash.com/photo-1481833761820-0509d3217039?w=400", title: "Coffee Talks", desc: "Deep conversations over virtual coffee" },
-                  { img: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?w=400", title: "Midnight Chats", desc: "Staying up whole night talking" },
-                  { img: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400", title: "Sweet Messages", desc: "Texts that made me smile" },
-                  { img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400", title: "Video Calls", desc: "Watching sunsets together" },
-                  { img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400", title: "Shared Stories", desc: "Books, songs, and dreams" },
-                  { img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400", title: "Gaming Setup", desc: "Ready for our Valorant sessions" }
+                  { img: "https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Virtual Coffee Dates", desc: "Deep conversations across the distance" },
+                  { img: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Late Night Video Calls", desc: "Staying up whole night talking" },
+                  { img: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Sweet Messages", desc: "Texts that bridged the miles between us" },
+                  { img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Gaming Together", desc: "Valorant sessions until sunrise" },
+                  { img: "https://images.unsplash.com/photo-1586243287039-23ba967ccca4?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Screen Sharing", desc: "Watching movies together online" },
+                  { img: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Shared Dreams", desc: "Planning our future together" }
                 ].map((memory, i) => (
                   <motion.div
                     key={i}
@@ -459,14 +471,89 @@ export default function ApologyApp() {
         </motion.div>
       )}
 
-      {/* Watermark */}
-      <div className="fixed bottom-4 right-4 bg-black/20 backdrop-blur-sm rounded-full px-3 py-1 border border-white/10">
-        <div className="flex items-center space-x-1 text-white/60 text-xs">
+      {/* Enhanced Watermark */}
+      <motion.div 
+        className="fixed bottom-4 right-4 bg-gradient-to-r from-pink-500/20 to-purple-500/20 backdrop-blur-sm rounded-full px-4 py-2 border border-pink-400/30 shadow-lg"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 2 }}
+        whileHover={{ scale: 1.05 }}
+      >
+        <div className="flex items-center space-x-2 text-white/80 text-sm font-medium">
           <span>Made with</span>
-          <Heart className="text-red-400" size={10} fill="currentColor" />
-          <span>by Vivi</span>
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity }}
+          >
+            <Heart className="text-red-400" size={12} fill="currentColor" />
+          </motion.div>
+          <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-bold">by Vivi</span>
         </div>
+      </motion.div>
+
+      {/* Click Counter Surprise */}
+      {showSurprise && (
+        <motion.div
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-6 rounded-2xl text-center shadow-2xl z-50"
+          initial={{ opacity: 0, scale: 0.5 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.5 }}
+        >
+          <Star className="mx-auto mb-3 text-3xl" size={40} />
+          <h3 className="text-xl font-bold mb-2">Surprise!</h3>
+          <p className="text-sm">Princess, you found the hidden easter egg! You clicked {clickCount} times 🎉</p>
+          <button 
+            onClick={() => setShowSurprise(false)}
+            className="mt-3 bg-white/20 px-4 py-2 rounded-full text-sm hover:bg-white/30"
+          >
+            Close
+          </button>
+        </motion.div>
+      )}
+
+      {/* Floating Sparkles */}
+      <div className="absolute inset-0 pointer-events-none">
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={`sparkle-${i}`}
+            className="absolute text-yellow-300"
+            initial={{ 
+              x: Math.random() * window.innerWidth,
+              y: Math.random() * window.innerHeight,
+              opacity: 0
+            }}
+            animate={{ 
+              opacity: [0, 1, 0],
+              scale: [0, 1, 0],
+              rotate: 360
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              delay: i * 0.8,
+              repeatDelay: 2
+            }}
+          >
+            <Sparkles size={16} />
+          </motion.div>
+        ))}
       </div>
+
+      {/* Long Distance Reminder */}
+      {currentStep > 0 && (
+        <motion.div
+          className="fixed top-4 left-1/2 transform -translate-x-1/2 bg-black/30 backdrop-blur-sm rounded-full px-4 py-2 border border-blue-400/30"
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 3 }}
+        >
+          <div className="flex items-center space-x-2 text-blue-200 text-sm">
+            <Moon size={14} />
+            <span>Miles apart, hearts together</span>
+            <Heart size={12} fill="currentColor" className="text-red-400" />
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }
