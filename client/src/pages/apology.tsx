@@ -9,12 +9,7 @@ import ResponseSection from '@/components/response-section';
 import NavigationDots from '@/components/navigation-dots';
 import MusicPlayer from '@/components/music-player';
 import Watermark from '@/components/watermark';
-import FloatingHearts from '@/components/floating-hearts';
-import LoveQuotes from '@/components/love-quotes';
-import InteractiveElements from '@/components/interactive-elements';
-import AmbientEffects from '@/components/ambient-effects';
-import MemoryTimeline from '@/components/memory-timeline';
-import WeatherMood from '@/components/weather-mood';
+import SimpleHearts from '@/components/simple-hearts';
 
 export default function ApologyApp() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -135,11 +130,9 @@ export default function ApologyApp() {
   }, [currentSection, totalSections]);
 
   return (
-    <div className="font-inter gradient-bg min-h-screen overflow-x-hidden">
-      <AmbientEffects />
+    <div className="font-inter gradient-bg min-h-screen overflow-x-hidden relative">
       <ParticlesBackground />
-      <FloatingHearts />
-      <InteractiveElements />
+      <SimpleHearts />
       
       <motion.div
         className="relative z-10"
@@ -182,9 +175,6 @@ export default function ApologyApp() {
       
       <MusicPlayer isVisible={currentSection > 0} />
       <Watermark />
-      <LoveQuotes isVisible={currentSection === 1} />
-      <MemoryTimeline isVisible={currentSection === 2} />
-      <WeatherMood isVisible={currentSection === 0} />
     </div>
   );
 }

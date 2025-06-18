@@ -28,13 +28,13 @@ export default function ParticlesBackground() {
     };
 
     // Create initial particles
-    const particleCount = 20;
+    const particleCount = 15;
     for (let i = 0; i < particleCount; i++) {
-      setTimeout(createParticle, i * 200);
+      setTimeout(createParticle, i * 300);
     }
     
     // Continuously create new particles
-    const interval = setInterval(createParticle, 800);
+    const interval = setInterval(createParticle, 1200);
     
     return () => {
       clearInterval(interval);

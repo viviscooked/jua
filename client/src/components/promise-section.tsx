@@ -17,7 +17,7 @@ export default function PromiseSection({ onShowResponse, onPlayAgain, isVisible 
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ duration: 0.8 }}
     >
-      <div className="max-w-2xl mx-auto px-6 text-center">
+      <div className="max-w-4xl mx-auto px-6 text-center">
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 shadow-xl">
           <motion.div
             className="mb-6"

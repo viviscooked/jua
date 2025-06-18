@@ -61,7 +61,7 @@ export default function WelcomeSection({ onStartJourney, isVisible }: WelcomeSec
       animate={{ opacity: isVisible ? 1 : 0 }}
       transition={{ duration: 0.8 }}
     >
-      <div className="text-center px-6 max-w-lg mx-auto">
+      <div className="text-center px-6 max-w-2xl mx-auto">
         {/* Animated heart icon */}
         <motion.div
           className="mb-8"
