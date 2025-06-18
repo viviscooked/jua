@@ -1,0 +1,87 @@
+import { motion } from 'framer-motion';
+import { Camera, HeartHandshake } from 'lucide-react';
+
+interface MemoriesSectionProps {
+  onShowPromise: () => void;
+  isVisible: boolean;
+}
+
+export default function MemoriesSection({ onShowPromise, isVisible }: MemoriesSectionProps) {
+  const memories = [
+    {
+      image: "https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+      alt: "Romantic dinner setting",
+      caption: "Our conversations over coffee..."
+    },
+    {
+      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+      alt: "Beautiful sunset landscape",
+      caption: "Sharing beautiful moments..."
+    },
+    {
+      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+      alt: "Cozy reading space with books",
+      caption: "Late night conversations..."
+    }
+  ];
+
+  return (
+    <motion.section
+      className={`min-h-screen flex items-center justify-center relative z-10 section-transition ${
+        isVisible ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: isVisible ? 1 : 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      <div className="max-w-4xl mx-auto px-6">
+        <motion.h2
+          className="font-playfair text-3xl md:text-4xl font-bold text-white text-center mb-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          <Camera className="inline mr-3 text-yellow-300" size={40} />
+          Memories That Matter
+        </motion.h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+          {memories.map((memory, index) => (
+            <motion.div
+              key={index}
+              className="memory-card bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20 hover:scale-105 transition-transform duration-300"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 + index * 0.2 }}
+              whileHover={{ scale: 1.05, y: -5 }}
+            >
+              <img
+                src={memory.image}
+                alt={memory.alt}
+                className="w-full h-48 object-cover rounded-xl mb-3"
+              />
+              <p className="text-yellow-100 text-sm font-dancing">{memory.caption}</p>
+            </motion.div>
+          ))}
+        </div>
+        
+        <motion.div
+          className="text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+        >
+          <motion.button
+            onClick={onShowPromise}
+            className="bg-gradient-to-r from-purple-400 to-red-400 text-white px-8 py-4 rounded-full font-medium text-lg hover:scale-105 transition-transform duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <HeartHandshake className="inline mr-2" size={20} />
+            My Promise to You
+          </motion.button>
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}
