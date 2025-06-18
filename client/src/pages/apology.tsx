@@ -486,14 +486,20 @@ export default function ApologyApp() {
           if (audio) {
             audio.volume = 0.3;
             audio.loop = true;
+            audio.muted = isMuted;
+            
             if (isPlaying && !isMuted) {
-              audio.play().catch(() => console.log('Audio play failed'));
+              const playPromise = audio.play();
+              if (playPromise !== undefined) {
+                playPromise.catch(() => console.log('Audio play failed'));
+              }
             } else {
               audio.pause();
             }
-            audio.muted = isMuted;
           }
         }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       >
         <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
       </audio>

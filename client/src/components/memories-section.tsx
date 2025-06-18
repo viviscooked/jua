@@ -19,8 +19,8 @@ export default function MemoriesSection({ onShowPromise, isVisible }: MemoriesSe
       caption: "Staying up whole night talking ✨"
     },
     {
-      image: "https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-      alt: "Romantic dinner setting",
+      image: "/attached_assets/image_1750246127234.png",
+      alt: "Sweet memories",
       caption: "Our deep conversations over coffee ☕"
     },
     {
