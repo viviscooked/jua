@@ -9,13 +9,13 @@ interface MemoriesSectionProps {
 export default function MemoriesSection({ onShowPromise, isVisible }: MemoriesSectionProps) {
   const memories = [
     {
-      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-      alt: "Gaming setup with RGB lights",
+      image: "/attached_assets/Valorant-review-2_1750247273195.jpg",
+      alt: "Valorant gaming",
       caption: "Playing Valorant together until sunrise 🎮"
     },
     {
-      image: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-      alt: "Night time window view",
+      image: "/attached_assets/36356809-love-couple-chatting-in-valentines-night-in-vector_1750247273195.jpg",
+      alt: "Couple chatting at night",
       caption: "Staying up whole night talking ✨"
     },
     {

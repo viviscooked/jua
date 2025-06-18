@@ -38,13 +38,15 @@ export default function MusicPlayer({ isVisible }: MusicPlayerProps) {
     if (audio) {
       if (isPlaying) {
         audio.pause();
+        setIsPlaying(false);
       } else {
-        audio.play().catch(() => {
+        audio.play().then(() => {
+          setIsPlaying(true);
+        }).catch(() => {
           // Handle autoplay restrictions
           console.log('Autoplay prevented');
         });
       }
-      setIsPlaying(!isPlaying);
     }
   };
 
