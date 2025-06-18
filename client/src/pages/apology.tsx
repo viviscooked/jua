@@ -8,8 +8,6 @@ export default function ApologyApp() {
   const [isMuted, setIsMuted] = useState(false);
   const [showHearts, setShowHearts] = useState(false);
   const [selectedResponse, setSelectedResponse] = useState<string | null>(null);
-  const [clickCount, setClickCount] = useState(0);
-  const [showSurprise, setShowSurprise] = useState(false);
 
   const steps = [
     'intro',
@@ -43,18 +41,8 @@ export default function ApologyApp() {
     setSelectedResponse(response);
   };
 
-  const handleScreenClick = () => {
-    setClickCount(prev => prev + 1);
-    if (clickCount > 10) {
-      setShowSurprise(true);
-    }
-  };
-
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden relative"
-      onClick={handleScreenClick}
-    >
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden relative">
       {/* Animated Background */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -500,26 +488,6 @@ export default function ApologyApp() {
           <span className="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent font-bold">by Vivi</span>
         </div>
       </motion.div>
-
-      {/* Click Counter Surprise */}
-      {showSurprise && (
-        <motion.div
-          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white p-6 rounded-2xl text-center shadow-2xl z-50"
-          initial={{ opacity: 0, scale: 0.5 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.5 }}
-        >
-          <Star className="mx-auto mb-3 text-3xl" size={40} />
-          <h3 className="text-xl font-bold mb-2">Surprise!</h3>
-          <p className="text-sm">Princess, you found the hidden easter egg! You clicked {clickCount} times 🎉</p>
-          <button 
-            onClick={() => setShowSurprise(false)}
-            className="mt-3 bg-white/20 px-4 py-2 rounded-full text-sm hover:bg-white/30"
-          >
-            Close
-          </button>
-        </motion.div>
-      )}
 
       {/* Floating Sparkles */}
       <div className="absolute inset-0 pointer-events-none">
