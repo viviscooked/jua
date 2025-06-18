@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ArrowDown, Play, Pause, Volume2, VolumeX, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart, Star, Moon, Zap } from 'lucide-react';
+import { Heart, ArrowDown, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart, Star, Moon, Zap } from 'lucide-react';
 
 export default function ApologyApp() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isMuted, setIsMuted] = useState(false);
+  
   const [showHearts, setShowHearts] = useState(false);
   const [selectedResponse, setSelectedResponse] = useState<string | null>(null);
 
@@ -33,27 +32,7 @@ export default function ApologyApp() {
     setCurrentStep(step);
   };
 
-  const toggleMusic = () => {
-    const audio = document.getElementById('background-music') as HTMLAudioElement;
-    if (audio) {
-      if (isPlaying) {
-        audio.pause();
-      } else {
-        audio.play().catch((error) => {
-          console.log('Audio play failed:', error);
-          // Show user-friendly message or handle autoplay restrictions
-        });
-      }
-    }
-  };
-
-  const toggleMute = () => {
-    const audio = document.getElementById('background-music') as HTMLAudioElement;
-    if (audio) {
-      audio.muted = !isMuted;
-      setIsMuted(!isMuted);
-    }
-  };
+  
 
   const handleResponse = (response: string) => {
     setSelectedResponse(response);
@@ -481,48 +460,9 @@ export default function ApologyApp() {
         ))}
       </div>
 
-      {/* Music Player */}
-      {currentStep > 0 && (
-        <motion.div
-          className="fixed bottom-20 left-4 bg-black/30 backdrop-blur-lg rounded-full p-3 border border-white/20 z-30"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-        >
-          <div className="flex items-center space-x-2">
-            <button
-              onClick={toggleMusic}
-              className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-300"
-            >
-              {isPlaying ? <Pause className="text-white" size={16} /> : <Play className="text-white" size={16} />}
-            </button>
-            <button
-              onClick={toggleMute}
-              className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-300"
-            >
-              {isMuted ? <VolumeX className="text-white" size={16} /> : <Volume2 className="text-white" size={16} />}
-            </button>
-          </div>
-        </motion.div>
-      )}
+      
 
-      {/* Audio Element */}
-      <audio 
-        id="background-music"
-        loop
-        preload="auto"
-        onLoadedData={() => {
-          const audio = document.getElementById('background-music') as HTMLAudioElement;
-          if (audio) {
-            audio.volume = 0.3;
-          }
-        }}
-        onPlay={() => setIsPlaying(true)}
-        onPause={() => setIsPlaying(false)}
-        onError={(e) => console.log('Audio error:', e)}
-      >
-        <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
-        Your browser does not support the audio element.
-      </audio>
+      
 
       {/* Enhanced Watermark */}
       <motion.div 
