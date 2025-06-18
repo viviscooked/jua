@@ -54,9 +54,9 @@ export default function ApologyApp() {
         sparkle.style.pointerEvents = 'none';
         sparkle.style.zIndex = '1000';
         sparkle.style.animation = 'sparkle 3s ease-in-out forwards';
-        
+
         document.body.appendChild(sparkle);
-        
+
         setTimeout(() => {
           if (sparkle.parentNode) {
             sparkle.parentNode.removeChild(sparkle);
@@ -131,7 +131,7 @@ export default function ApologyApp() {
               >
                 <Heart className="text-red-400 mx-auto" size={120} fill="currentColor" />
               </motion.div>
-              
+
               <motion.h1 
                 className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent mb-6"
                 initial={{ y: 50 }}
@@ -140,7 +140,7 @@ export default function ApologyApp() {
               >
                 Dear Princess
               </motion.h1>
-              
+
               <motion.p 
                 className="text-xl text-white/80 mb-8 font-light"
                 initial={{ y: 30, opacity: 0 }}
@@ -149,7 +149,7 @@ export default function ApologyApp() {
               >
                 A heartfelt message from Vivi
               </motion.p>
-              
+
               <motion.button
                 onClick={nextStep}
                 className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 group"
@@ -175,7 +175,7 @@ export default function ApologyApp() {
             >
               <Crown className="text-yellow-400 mx-auto mb-6" size={60} />
               <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">My Sincere Apology</h2>
-              
+
               <div className="space-y-6 text-lg text-white/90 leading-relaxed">
                 <motion.p
                   initial={{ opacity: 0, x: -30 }}
@@ -199,7 +199,7 @@ export default function ApologyApp() {
                   You mean more to me than words can express, and being so far away makes me cherish every digital moment we share even more.
                 </motion.p>
               </div>
-              
+
               <motion.button
                 onClick={nextStep}
                 className="mt-8 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300"
@@ -227,11 +227,11 @@ export default function ApologyApp() {
                 <Camera className="inline mr-3" />
                 Moments We Shared
               </h2>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
+
+              <div className="grid md:grid-cols-2 gap-8 mb-12 max-w-4xl mx-auto">
                 {[
-                  { img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Valorant Sessions", desc: "Gaming together until sunrise" },
-                  { img: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300", title: "Late Night Chats", desc: "Talking for hours about everything" }
+                  { img: "/attached_assets/Valorant-review-2_1750247273195.jpg", title: "Valorant Sessions", desc: "Gaming together until sunrise" },
+                  { img: "/attached_assets/36356809-love-couple-chatting-in-valentines-night-in-vector_1750247273195.jpg", title: "Late Night Chats", desc: "Talking for hours about everything" }
                 ].map((memory, i) => (
                   <motion.div
                     key={i}
@@ -249,7 +249,7 @@ export default function ApologyApp() {
                   </motion.div>
                 ))}
               </div>
-              
+
               <div className="text-center">
                 <motion.button
                   onClick={nextStep}
@@ -274,7 +274,7 @@ export default function ApologyApp() {
             >
               <div className="text-6xl mb-6">🎮</div>
               <h2 className="text-4xl font-bold text-white mb-8">Valorant Until Sunrise</h2>
-              
+
               <div className="grid md:grid-cols-2 gap-8 items-center">
                 <div className="space-y-4 text-left">
                   <motion.div 
@@ -302,7 +302,7 @@ export default function ApologyApp() {
                     <p className="text-white">Your laughter when we'd make silly mistakes - music to my ears</p>
                   </motion.div>
                 </div>
-                
+
                 <motion.div 
                   className="bg-black/30 p-6 rounded-xl"
                   initial={{ scale: 0.8, opacity: 0 }}
@@ -317,7 +317,7 @@ export default function ApologyApp() {
                   </p>
                 </motion.div>
               </div>
-              
+
               <motion.button
                 onClick={nextStep}
                 className="mt-8 bg-gradient-to-r from-red-500 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-red-500/25 transition-all duration-300"
@@ -343,7 +343,7 @@ export default function ApologyApp() {
             >
               <HandHeart className="text-red-400 mx-auto mb-6" size={80} />
               <h2 className="text-4xl font-bold text-white mb-8">My Sacred Promise</h2>
-              
+
               <div className="space-y-6 text-lg text-white/90 leading-relaxed">
                 <motion.div
                   className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 p-6 rounded-xl border border-pink-500/30"
@@ -370,7 +370,7 @@ export default function ApologyApp() {
                   <p>You deserve someone who shows up, and I want to be that person for you, always.</p>
                 </motion.div>
               </div>
-              
+
               <motion.button
                 onClick={nextStep}
                 className="mt-8 bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-violet-500/25 transition-all duration-300"
@@ -396,9 +396,9 @@ export default function ApologyApp() {
             >
               <MessageSquare className="text-blue-400 mx-auto mb-6" size={80} />
               <h2 className="text-4xl font-bold text-white mb-8">Princess, How Do You Feel?</h2>
-              
+
               <p className="text-xl text-white/80 mb-8">Your feelings matter to me more than anything in this world...</p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                 {[
                   { id: 'forgive', label: 'I Forgive You ✨', color: 'from-green-500 to-emerald-600', response: 'Princess, your forgiveness means everything to me! I promise to cherish our friendship even more. - Vivi 💕' },
@@ -421,7 +421,7 @@ export default function ApologyApp() {
                   </motion.button>
                 ))}
               </div>
-              
+
               {selectedResponse && (
                 <motion.div
                   className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
@@ -487,7 +487,7 @@ export default function ApologyApp() {
             audio.volume = 0.3;
             audio.loop = true;
             audio.muted = isMuted;
-            
+
             if (isPlaying && !isMuted) {
               const playPromise = audio.play();
               if (playPromise !== undefined) {

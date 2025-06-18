@@ -24,18 +24,18 @@ export default function MemoriesSection({ onShowPromise, isVisible }: MemoriesSe
       caption: "Our deep conversations over coffee ☕"
     },
     {
-      image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-      alt: "Phone with messages",
+      image: "/attached_assets/image_1750246127234.png",
+      alt: "Sweet messages",
       caption: "Endless texts that made me smile 💕"
     },
     {
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-      alt: "Beautiful sunset landscape",
+      image: "/attached_assets/Valorant-review-2_1750247273195.jpg",
+      alt: "Gaming together",
       caption: "Watching sunsets while video calling 🌅"
     },
     {
-      image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
-      alt: "Cozy reading space with books",
+      image: "/attached_assets/36356809-love-couple-chatting-in-valentines-night-in-vector_1750247273195.jpg",
+      alt: "Romantic conversations",
       caption: "Sharing our favorite songs and stories 📚"
     }
   ];
