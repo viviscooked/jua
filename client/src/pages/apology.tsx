@@ -7,6 +7,10 @@ import MemoriesSection from '@/components/memories-section';
 import PromiseSection from '@/components/promise-section';
 import ResponseSection from '@/components/response-section';
 import NavigationDots from '@/components/navigation-dots';
+import MusicPlayer from '@/components/music-player';
+import Watermark from '@/components/watermark';
+import FloatingHearts from '@/components/floating-hearts';
+import LoveQuotes from '@/components/love-quotes';
 
 export default function ApologyApp() {
   const [currentSection, setCurrentSection] = useState(0);
@@ -61,7 +65,7 @@ export default function ApologyApp() {
       
       if (isScrolling) return;
       
-      const threshold = 100; // Increased threshold for less sensitivity
+      const threshold = 30; // Much lower threshold for easier scrolling
       
       if (Math.abs(e.deltaY) > threshold) {
         isScrolling = true;
@@ -74,10 +78,10 @@ export default function ApologyApp() {
           goToSection(currentSection - 1);
         }
         
-        // Reset scrolling flag after delay
+        // Reset scrolling flag after shorter delay
         setTimeout(() => {
           isScrolling = false;
-        }, 800);
+        }, 400);
       }
     };
 
@@ -99,8 +103,8 @@ export default function ApologyApp() {
       const diffY = startY - endY;
       const diffX = startX - endX;
 
-      // Increased threshold for less sensitive touch detection
-      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 80) {
+      // Lower threshold for easier touch detection
+      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 40) {
         if (diffY > 0 && currentSection < totalSections - 1) {
           // Swipe up - next section
           goToSection(currentSection + 1);
@@ -129,6 +133,7 @@ export default function ApologyApp() {
   return (
     <div className="font-inter gradient-bg min-h-screen overflow-x-hidden">
       <ParticlesBackground />
+      <FloatingHearts />
       
       <motion.div
         className="relative z-10"
@@ -168,6 +173,10 @@ export default function ApologyApp() {
         totalSections={totalSections}
         onSectionChange={goToSection}
       />
+      
+      <MusicPlayer isVisible={currentSection > 0} />
+      <Watermark />
+      <LoveQuotes isVisible={currentSection === 1} />
     </div>
   );
 }

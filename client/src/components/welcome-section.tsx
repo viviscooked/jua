@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Heart, Mail } from 'lucide-react';
+import { Heart, Mail, Sparkles } from 'lucide-react';
 
 interface WelcomeSectionProps {
   onStartJourney: () => void;
@@ -78,12 +78,26 @@ export default function WelcomeSection({ onStartJourney, isVisible }: WelcomeSec
         </motion.div>
         
         <motion.h1
-          className="font-playfair text-4xl md:text-5xl font-bold text-white mb-6"
+          className="font-playfair text-4xl md:text-5xl font-bold text-white mb-6 relative"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           For My Princess
+          <motion.div
+            className="absolute -top-2 -right-2"
+            animate={{
+              rotate: [0, 10, -10, 0],
+              scale: [1, 1.2, 1]
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          >
+            <Sparkles className="text-yellow-300" size={24} />
+          </motion.div>
         </motion.h1>
         
         <motion.div
