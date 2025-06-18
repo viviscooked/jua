@@ -85,12 +85,19 @@ export default function ConfessionSection({ onShowMemories, isVisible }: Confess
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.8 }}
             >
-              I'm truly sorry that we've had fewer interactions recently. Life got overwhelming, but that's no excuse.
+              I'm truly sorry that we've had fewer interactions recently. I miss our gaming sessions, our late-night talks, and just... us.
             </motion.p>
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 1.2 }}
+            >
+              Remember when we used to play Valorant until sunrise and talk about everything and nothing? Those were the best times.
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.6 }}
             >
               You mean so much to me, Princess, and I never want you to feel forgotten or unimportant.
             </motion.p>

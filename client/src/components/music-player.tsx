@@ -20,6 +20,19 @@ export default function MusicPlayer({ isVisible }: MusicPlayerProps) {
     }
   }, [volume]);
 
+  // Auto-play when component becomes visible
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (audio && isVisible && !isPlaying) {
+      audio.play().then(() => {
+        setIsPlaying(true);
+      }).catch(() => {
+        // Autoplay prevented, user needs to interact first
+        console.log('Autoplay prevented');
+      });
+    }
+  }, [isVisible]);
+
   const togglePlay = () => {
     const audio = audioRef.current;
     if (audio) {

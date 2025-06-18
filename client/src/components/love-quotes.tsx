@@ -9,9 +9,12 @@ export default function LoveQuotes({ isVisible }: LoveQuotesProps) {
   const quotes = [
     "Every moment away from you feels like a lifetime...",
     "Princess, you light up my world in ways you'll never know",
+    "Those gaming sessions taught me we're perfect teammates 🎮",
+    "I miss our midnight conversations more than anything",
+    "Your laugh during our Valorant matches is my favorite sound",
     "Distance means nothing when someone means everything",
     "You're the first thought in my morning and the last in my night",
-    "My heart skips a beat every time I think of you"
+    "Our late-night talks made me realize how special you are"
   ];
 
   const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];

@@ -9,19 +9,34 @@ interface MemoriesSectionProps {
 export default function MemoriesSection({ onShowPromise, isVisible }: MemoriesSectionProps) {
   const memories = [
     {
+      image: "https://images.unsplash.com/photo-1511512578047-dfb367046420?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+      alt: "Gaming setup with RGB lights",
+      caption: "Playing Valorant together until sunrise 🎮"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+      alt: "Night time window view",
+      caption: "Staying up whole night talking ✨"
+    },
+    {
       image: "https://images.unsplash.com/photo-1481833761820-0509d3217039?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
       alt: "Romantic dinner setting",
-      caption: "Our conversations over coffee..."
+      caption: "Our deep conversations over coffee ☕"
+    },
+    {
+      image: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
+      alt: "Phone with messages",
+      caption: "Endless texts that made me smile 💕"
     },
     {
       image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
       alt: "Beautiful sunset landscape",
-      caption: "Sharing beautiful moments..."
+      caption: "Watching sunsets while video calling 🌅"
     },
     {
       image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=300",
       alt: "Cozy reading space with books",
-      caption: "Late night conversations..."
+      caption: "Sharing our favorite songs and stories 📚"
     }
   ];
 
