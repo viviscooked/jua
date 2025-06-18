@@ -1,180 +1,472 @@
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import ParticlesBackground from '@/components/particles';
-import WelcomeSection from '@/components/welcome-section';
-import ConfessionSection from '@/components/confession-section';
-import MemoriesSection from '@/components/memories-section';
-import PromiseSection from '@/components/promise-section';
-import ResponseSection from '@/components/response-section';
-import NavigationDots from '@/components/navigation-dots';
-import MusicPlayer from '@/components/music-player';
-import Watermark from '@/components/watermark';
-import SimpleHearts from '@/components/simple-hearts';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, ArrowDown, Play, Pause, Volume2, VolumeX, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart } from 'lucide-react';
 
 export default function ApologyApp() {
-  const [currentSection, setCurrentSection] = useState(0);
-  const totalSections = 5;
+  const [currentStep, setCurrentStep] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [showHearts, setShowHearts] = useState(false);
+  const [selectedResponse, setSelectedResponse] = useState<string | null>(null);
 
-  const sections = [
-    'welcome',
-    'confession',
+  const steps = [
+    'intro',
+    'message',
     'memories',
+    'gaming',
     'promise',
     'response'
   ];
 
-  const goToSection = (index: number) => {
-    if (index >= 0 && index < totalSections) {
-      setCurrentSection(index);
-    }
-  };
-
-  const nextSection = () => {
-    if (currentSection < totalSections - 1) {
-      setCurrentSection(currentSection + 1);
-    }
-  };
-
-  const resetToStart = () => {
-    setCurrentSection(0);
-  };
-
-  // Handle keyboard navigation and touch gestures
   useEffect(() => {
-    let isScrolling = false;
-    
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Only respond to Page Down/Up and Space, not arrow keys for better control
-      if (e.key === 'PageDown' || (e.key === ' ' && !e.shiftKey)) {
-        e.preventDefault();
-        if (currentSection < totalSections - 1) {
-          goToSection(currentSection + 1);
-        }
-      } else if (e.key === 'PageUp' || (e.key === ' ' && e.shiftKey)) {
-        e.preventDefault();
-        if (currentSection > 0) {
-          goToSection(currentSection - 1);
-        }
-      }
-    };
+    const timer = setTimeout(() => setShowHearts(true), 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
-    // Disable regular scroll behavior and use wheel events with throttling
-    const handleWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      
-      if (isScrolling) return;
-      
-      const threshold = 30; // Much lower threshold for easier scrolling
-      
-      if (Math.abs(e.deltaY) > threshold) {
-        isScrolling = true;
-        
-        if (e.deltaY > 0 && currentSection < totalSections - 1) {
-          // Scroll down - next section
-          goToSection(currentSection + 1);
-        } else if (e.deltaY < 0 && currentSection > 0) {
-          // Scroll up - previous section
-          goToSection(currentSection - 1);
-        }
-        
-        // Reset scrolling flag after shorter delay
-        setTimeout(() => {
-          isScrolling = false;
-        }, 400);
-      }
-    };
+  const nextStep = () => {
+    if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
 
-    let startY = 0;
-    let startX = 0;
-    let isTouching = false;
+  const goToStep = (step: number) => {
+    setCurrentStep(step);
+  };
 
-    const handleTouchStart = (e: TouchEvent) => {
-      startY = e.touches[0].clientY;
-      startX = e.touches[0].clientX;
-      isTouching = true;
-    };
+  const toggleMusic = () => {
+    setIsPlaying(!isPlaying);
+  };
 
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (!isTouching) return;
-      
-      const endY = e.changedTouches[0].clientY;
-      const endX = e.changedTouches[0].clientX;
-      const diffY = startY - endY;
-      const diffX = startX - endX;
-
-      // Lower threshold for easier touch detection
-      if (Math.abs(diffY) > Math.abs(diffX) && Math.abs(diffY) > 40) {
-        if (diffY > 0 && currentSection < totalSections - 1) {
-          // Swipe up - next section
-          goToSection(currentSection + 1);
-        } else if (diffY < 0 && currentSection > 0) {
-          // Swipe down - previous section
-          goToSection(currentSection - 1);
-        }
-      }
-      
-      isTouching = false;
-    };
-
-    document.addEventListener('keydown', handleKeyDown);
-    document.addEventListener('wheel', handleWheel, { passive: false });
-    document.addEventListener('touchstart', handleTouchStart);
-    document.addEventListener('touchend', handleTouchEnd);
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.removeEventListener('wheel', handleWheel);
-      document.removeEventListener('touchstart', handleTouchStart);
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [currentSection, totalSections]);
+  const handleResponse = (response: string) => {
+    setSelectedResponse(response);
+  };
 
   return (
-    <div className="font-inter gradient-bg min-h-screen overflow-x-hidden relative">
-      <ParticlesBackground />
-      <SimpleHearts />
-      
-      <motion.div
-        className="relative z-10"
-        key={currentSection}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-      >
-        <WelcomeSection
-          onStartJourney={nextSection}
-          isVisible={currentSection === 0}
-        />
-        
-        <ConfessionSection
-          onShowMemories={nextSection}
-          isVisible={currentSection === 1}
-        />
-        
-        <MemoriesSection
-          onShowPromise={nextSection}
-          isVisible={currentSection === 2}
-        />
-        
-        <PromiseSection
-          onShowResponse={nextSection}
-          onPlayAgain={resetToStart}
-          isVisible={currentSection === 3}
-        />
-        
-        <ResponseSection
-          isVisible={currentSection === 4}
-        />
-      </motion.div>
+    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 overflow-hidden relative">
+      {/* Animated Background */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-10 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
+        <div className="absolute top-40 right-10 w-72 h-72 bg-pink-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-1000"></div>
+        <div className="absolute bottom-40 left-40 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse delay-2000"></div>
+      </div>
 
-      <NavigationDots
-        currentSection={currentSection}
-        totalSections={totalSections}
-        onSectionChange={goToSection}
-      />
-      
-      <MusicPlayer isVisible={currentSection > 0} />
-      <Watermark />
+      {/* Floating Hearts */}
+      <AnimatePresence>
+        {showHearts && (
+          <motion.div className="absolute inset-0 pointer-events-none">
+            {[...Array(8)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute text-pink-400 text-2xl"
+                initial={{ 
+                  x: Math.random() * window.innerWidth, 
+                  y: window.innerHeight + 50,
+                  opacity: 0.7 
+                }}
+                animate={{ 
+                  y: -100,
+                  x: Math.random() * window.innerWidth,
+                  rotate: 360
+                }}
+                transition={{ 
+                  duration: Math.random() * 3 + 5,
+                  repeat: Infinity,
+                  delay: i * 0.8
+                }}
+              >
+                💕
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Main Content */}
+      <div className="relative z-10 min-h-screen flex items-center justify-center p-6">
+        <AnimatePresence mode="wait">
+          {currentStep === 0 && (
+            <motion.div
+              key="intro"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="text-center max-w-2xl"
+            >
+              <motion.div
+                animate={{ 
+                  scale: [1, 1.2, 1],
+                  rotate: [0, 5, -5, 0]
+                }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="mb-8"
+              >
+                <Heart className="text-red-400 mx-auto" size={120} fill="currentColor" />
+              </motion.div>
+              
+              <motion.h1 
+                className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent mb-6"
+                initial={{ y: 50 }}
+                animate={{ y: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                Dear Princess
+              </motion.h1>
+              
+              <motion.p 
+                className="text-xl text-white/80 mb-8 font-light"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1 }}
+              >
+                A heartfelt message from Vivi
+              </motion.p>
+              
+              <motion.button
+                onClick={nextStep}
+                className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 group"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ delay: 1.5 }}
+              >
+                Open My Heart
+                <ArrowDown className="inline ml-2 group-hover:translate-y-1 transition-transform" size={20} />
+              </motion.button>
+            </motion.div>
+          )}
+
+          {currentStep === 1 && (
+            <motion.div
+              key="message"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              className="max-w-4xl text-center bg-black/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10"
+            >
+              <Crown className="text-yellow-400 mx-auto mb-6" size={60} />
+              <h2 className="text-4xl md:text-5xl font-bold text-white mb-8">My Sincere Apology</h2>
+              
+              <div className="space-y-6 text-lg text-white/90 leading-relaxed">
+                <motion.p
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  Princess, I've been thinking about us lately, and my heart feels heavy knowing we've had fewer interactions recently.
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, x: 30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  I miss our late-night conversations, our gaming sessions that lasted until sunrise, and those moments when we'd talk about everything and nothing.
+                </motion.p>
+                <motion.p
+                  initial={{ opacity: 0, x: -30 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.9 }}
+                >
+                  You mean more to me than words can express, and I never want you to feel forgotten or unimportant in my life.
+                </motion.p>
+              </div>
+              
+              <motion.button
+                onClick={nextStep}
+                className="mt-8 bg-gradient-to-r from-emerald-500 to-teal-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                Our Beautiful Memories
+                <Camera className="inline ml-2" size={20} />
+              </motion.button>
+            </motion.div>
+          )}
+
+          {currentStep === 2 && (
+            <motion.div
+              key="memories"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="max-w-6xl"
+            >
+              <h2 className="text-4xl font-bold text-white text-center mb-12">
+                <Camera className="inline mr-3" />
+                Moments We Shared
+              </h2>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {[
+                  { img: "https://images.unsplash.com/photo-1481833761820-0509d3217039?w=400", title: "Coffee Talks", desc: "Deep conversations over virtual coffee" },
+                  { img: "https://images.unsplash.com/photo-1574544464614-15e8e7b98b8c?w=400", title: "Midnight Chats", desc: "Staying up whole night talking" },
+                  { img: "https://images.unsplash.com/photo-1516975080664-ed2fc6a32937?w=400", title: "Sweet Messages", desc: "Texts that made me smile" },
+                  { img: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400", title: "Video Calls", desc: "Watching sunsets together" },
+                  { img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=400", title: "Shared Stories", desc: "Books, songs, and dreams" },
+                  { img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400", title: "Gaming Setup", desc: "Ready for our Valorant sessions" }
+                ].map((memory, i) => (
+                  <motion.div
+                    key={i}
+                    className="bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/20 hover:scale-105 transition-transform duration-300"
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.1 }}
+                    whileHover={{ y: -5 }}
+                  >
+                    <img src={memory.img} alt={memory.title} className="w-full h-48 object-cover" />
+                    <div className="p-4">
+                      <h3 className="text-white font-semibold text-lg">{memory.title}</h3>
+                      <p className="text-white/70 text-sm">{memory.desc}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+              
+              <div className="text-center">
+                <motion.button
+                  onClick={nextStep}
+                  className="bg-gradient-to-r from-purple-500 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-purple-500/25 transition-all duration-300"
+                  whileHover={{ scale: 1.05, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Our Gaming Adventures
+                  <Sparkles className="inline ml-2" size={20} />
+                </motion.button>
+              </div>
+            </motion.div>
+          )}
+
+          {currentStep === 3 && (
+            <motion.div
+              key="gaming"
+              initial={{ opacity: 0, rotateY: -20 }}
+              animate={{ opacity: 1, rotateY: 0 }}
+              exit={{ opacity: 0, rotateY: 20 }}
+              className="max-w-4xl text-center bg-gradient-to-br from-indigo-900/50 to-purple-900/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-purple-500/30"
+            >
+              <div className="text-6xl mb-6">🎮</div>
+              <h2 className="text-4xl font-bold text-white mb-8">Valorant Until Sunrise</h2>
+              
+              <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="space-y-4 text-left">
+                  <motion.div 
+                    className="bg-green-500/20 p-4 rounded-lg border-l-4 border-green-400"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                  >
+                    <p className="text-white">Remember those epic clutches we pulled off together?</p>
+                  </motion.div>
+                  <motion.div 
+                    className="bg-blue-500/20 p-4 rounded-lg border-l-4 border-blue-400"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                  >
+                    <p className="text-white">Those 3 AM gaming sessions where we'd forget about time</p>
+                  </motion.div>
+                  <motion.div 
+                    className="bg-purple-500/20 p-4 rounded-lg border-l-4 border-purple-400"
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.9 }}
+                  >
+                    <p className="text-white">Your laughter when we'd make silly mistakes - music to my ears</p>
+                  </motion.div>
+                </div>
+                
+                <motion.div 
+                  className="bg-black/30 p-6 rounded-xl"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: 0.5 }}
+                >
+                  <div className="text-4xl mb-4">⏰</div>
+                  <p className="text-white text-lg">
+                    "Just one more game" - we said<br />
+                    But we played until dawn instead<br />
+                    Those were our golden hours, Princess
+                  </p>
+                </motion.div>
+              </div>
+              
+              <motion.button
+                onClick={nextStep}
+                className="mt-8 bg-gradient-to-r from-red-500 to-pink-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-red-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                My Promise to You
+                <HandHeart className="inline ml-2" size={20} />
+              </motion.button>
+            </motion.div>
+          )}
+
+          {currentStep === 4 && (
+            <motion.div
+              key="promise"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              className="max-w-4xl text-center bg-black/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10"
+            >
+              <HandHeart className="text-red-400 mx-auto mb-6" size={80} />
+              <h2 className="text-4xl font-bold text-white mb-8">My Sacred Promise</h2>
+              
+              <div className="space-y-6 text-lg text-white/90 leading-relaxed">
+                <motion.div
+                  className="bg-gradient-to-r from-pink-500/20 to-purple-500/20 p-6 rounded-xl border border-pink-500/30"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                >
+                  <p>Princess, I promise to be more present in your life. No more letting days pass without our conversations.</p>
+                </motion.div>
+                <motion.div
+                  className="bg-gradient-to-r from-blue-500/20 to-cyan-500/20 p-6 rounded-xl border border-blue-500/30"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  <p>I'll make time for our gaming sessions, our late-night talks, and all the moments that make us... us.</p>
+                </motion.div>
+                <motion.div
+                  className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 p-6 rounded-xl border border-emerald-500/30"
+                  initial={{ y: 30, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.9 }}
+                >
+                  <p>You deserve someone who shows up, and I want to be that person for you, always.</p>
+                </motion.div>
+              </div>
+              
+              <motion.button
+                onClick={nextStep}
+                className="mt-8 bg-gradient-to-r from-violet-500 to-purple-600 text-white px-8 py-4 rounded-full text-lg font-medium hover:shadow-2xl hover:shadow-violet-500/25 transition-all duration-300"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+              >
+                Your Response Matters
+                <MessageSquare className="inline ml-2" size={20} />
+              </motion.button>
+            </motion.div>
+          )}
+
+          {currentStep === 5 && (
+            <motion.div
+              key="response"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -50 }}
+              className="max-w-4xl text-center bg-black/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10"
+            >
+              <MessageSquare className="text-blue-400 mx-auto mb-6" size={80} />
+              <h2 className="text-4xl font-bold text-white mb-8">Princess, How Do You Feel?</h2>
+              
+              <p className="text-xl text-white/80 mb-8">Your feelings matter to me more than anything in this world...</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                {[
+                  { id: 'forgive', label: 'I Forgive You ✨', color: 'from-green-500 to-emerald-600', response: 'Princess, your forgiveness means everything to me! I promise to cherish our friendship even more. - Vivi 💕' },
+                  { id: 'touched', label: 'This is Beautiful 💕', color: 'from-pink-500 to-rose-600', response: 'I\'m so happy this touched your heart! You deserve all the beautiful things in life, Princess. - Vivi 🌸' },
+                  { id: 'grateful', label: 'Thank You, Vivi 🌟', color: 'from-yellow-500 to-orange-600', response: 'Thank YOU for being such an amazing person, Princess! Your kindness inspires me every day. - Vivi 🌟' },
+                  { id: 'talk', label: "Let's Talk More 💬", color: 'from-blue-500 to-cyan-600', response: 'I\'d love to talk more, Princess! Let\'s catch up soon and make up for lost time. - Vivi 💬' }
+                ].map((option) => (
+                  <motion.button
+                    key={option.id}
+                    onClick={() => handleResponse(option.id)}
+                    className={`bg-gradient-to-r ${option.color} text-white p-6 rounded-2xl text-lg font-medium hover:shadow-2xl transition-all duration-300 ${selectedResponse === option.id ? 'ring-4 ring-white/50' : ''}`}
+                    whileHover={{ scale: 1.02, y: -2 }}
+                    whileTap={{ scale: 0.98 }}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.2 * parseInt(option.id.slice(-1)) }}
+                    disabled={!!selectedResponse}
+                  >
+                    {option.label}
+                  </motion.button>
+                ))}
+              </div>
+              
+              {selectedResponse && (
+                <motion.div
+                  className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20"
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                >
+                  <p className="text-white text-lg">
+                    {[
+                      { id: 'forgive', response: 'Princess, your forgiveness means everything to me! I promise to cherish our friendship even more. - Vivi 💕' },
+                      { id: 'touched', response: 'I\'m so happy this touched your heart! You deserve all the beautiful things in life, Princess. - Vivi 🌸' },
+                      { id: 'grateful', response: 'Thank YOU for being such an amazing person, Princess! Your kindness inspires me every day. - Vivi 🌟' },
+                      { id: 'talk', response: 'I\'d love to talk more, Princess! Let\'s catch up soon and make up for lost time. - Vivi 💬' }
+                    ].find(r => r.id === selectedResponse)?.response}
+                  </p>
+                </motion.div>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+        {steps.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => goToStep(index)}
+            className={`w-3 h-3 rounded-full transition-all duration-300 ${
+              index === currentStep ? 'bg-white scale-125' : 'bg-white/30 hover:bg-white/60'
+            }`}
+          />
+        ))}
+      </div>
+
+      {/* Music Player */}
+      {currentStep > 0 && (
+        <motion.div
+          className="fixed bottom-8 left-8 bg-black/30 backdrop-blur-lg rounded-full p-4 border border-white/20"
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+        >
+          <div className="flex items-center space-x-3">
+            <button
+              onClick={toggleMusic}
+              className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-300"
+            >
+              {isPlaying ? <Pause className="text-white" size={16} /> : <Play className="text-white" size={16} />}
+            </button>
+            <button
+              onClick={() => setIsMuted(!isMuted)}
+              className="bg-white/20 hover:bg-white/30 rounded-full p-2 transition-all duration-300"
+            >
+              {isMuted ? <VolumeX className="text-white" size={16} /> : <Volume2 className="text-white" size={16} />}
+            </button>
+            <span className="text-white text-sm font-medium hidden sm:block">Our Song</span>
+          </div>
+          <audio autoPlay={isPlaying} muted={isMuted} loop>
+            <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
+          </audio>
+        </motion.div>
+      )}
+
+      {/* Watermark */}
+      <div className="fixed bottom-4 right-4 bg-black/20 backdrop-blur-sm rounded-full px-3 py-1 border border-white/10">
+        <div className="flex items-center space-x-1 text-white/60 text-xs">
+          <span>Made with</span>
+          <Heart className="text-red-400" size={10} fill="currentColor" />
+          <span>by Vivi</span>
+        </div>
+      </div>
     </div>
   );
 }

@@ -62,9 +62,9 @@ export default function WelcomeSection({ onStartJourney, isVisible }: WelcomeSec
       transition={{ duration: 0.8 }}
     >
       <div className="text-center px-6 max-w-2xl mx-auto">
-        {/* Animated heart icon */}
+        {/* Animated heart icon with glow */}
         <motion.div
-          className="mb-8"
+          className="mb-8 relative"
           animate={{
             scale: [1, 1.1, 1, 1.05],
           }}
@@ -74,7 +74,8 @@ export default function WelcomeSection({ onStartJourney, isVisible }: WelcomeSec
             ease: "easeInOut"
           }}
         >
-          <Heart className="text-6xl text-red-400 mx-auto" size={96} fill="currentColor" />
+          <div className="absolute inset-0 blur-xl bg-red-400 opacity-30 rounded-full"></div>
+          <Heart className="text-6xl text-red-400 mx-auto relative z-10" size={96} fill="currentColor" />
         </motion.div>
         
         <motion.h1
@@ -111,8 +112,8 @@ export default function WelcomeSection({ onStartJourney, isVisible }: WelcomeSec
         
         <motion.button
           onClick={handleStart}
-          className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-white/30 transition-all duration-300 animate-pulse-soft"
-          whileHover={{ scale: 1.05 }}
+          className="bg-gradient-to-r from-pink-500 to-violet-500 hover:from-pink-600 hover:to-violet-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-2xl hover:shadow-pink-500/25 transition-all duration-300 border border-white/20"
+          whileHover={{ scale: 1.05, y: -2 }}
           whileTap={{ scale: 0.95 }}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

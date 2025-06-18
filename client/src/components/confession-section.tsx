@@ -48,7 +48,7 @@ export default function ConfessionSection({ onShowMemories, isVisible }: Confess
       transition={{ duration: 0.8 }}
     >
       <div className="max-w-4xl mx-auto px-6 text-center">
-        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 shadow-xl">
+        <div className="bg-black/20 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl"">
           <motion.div
             className="mb-6"
             animate={{
@@ -105,11 +105,11 @@ export default function ConfessionSection({ onShowMemories, isVisible }: Confess
           
           <motion.button
             onClick={handleShowMemories}
-            className="mt-8 bg-gradient-to-r from-pink-400 to-red-400 text-white px-8 py-4 rounded-full font-medium text-lg hover:scale-105 transition-transform duration-300"
+            className="mt-8 bg-gradient-to-r from-emerald-500 to-blue-500 hover:from-emerald-600 hover:to-blue-600 text-white px-8 py-4 rounded-full font-medium text-lg shadow-2xl hover:shadow-emerald-500/25 transition-all duration-300"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 1.6 }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
             <Images className="inline mr-2" size={20} />
