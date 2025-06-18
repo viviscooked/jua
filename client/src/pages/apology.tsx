@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, ArrowDown, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart, Star, Moon, Zap } from 'lucide-react';
+import { Heart, ArrowDown, Home, MessageSquare, Camera, Sparkles, Crown, HandHeart, Star, Moon, Zap, Play, Pause, Volume2, VolumeX } from 'lucide-react';
 
 export default function ApologyApp() {
   const [currentStep, setCurrentStep] = useState(0);
-  
+
   const [showHearts, setShowHearts] = useState(false);
   const [selectedResponse, setSelectedResponse] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
 
   const steps = [
     'intro',
@@ -32,13 +33,13 @@ export default function ApologyApp() {
     setCurrentStep(step);
   };
 
-  
+
 
   const handleResponse = (response: string) => {
     setSelectedResponse(response);
   };
 
-  
+
 
   const showSurprise = () => {
     // Add sparkle effect
@@ -460,9 +461,41 @@ export default function ApologyApp() {
         ))}
       </div>
 
-      
+      {/* Hidden Audio Element with Auto-play */}
+      <audio 
+        id="background-music"
+        loop
+        autoPlay
+        preload="auto"
+        onLoadedData={() => {
+          const audio = document.getElementById('background-music') as HTMLAudioElement;
+          if (audio) {
+            audio.volume = 0.3;
+            audio.play().catch(() => {
+              // Autoplay prevented, will try again on user interaction
+            });
+          }
+        }}
+        onCanPlay={() => {
+          if (currentStep > 0) {
+            const audio = document.getElementById('background-music') as HTMLAudioElement;
+            if (audio) {
+              audio.play().catch(() => {
+                // Autoplay prevented
+              });
+            }
+          }
+        }}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
+        onError={(e) => console.log('Audio error:', e)}
+      >
+        <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
 
-      
+
+
 
       {/* Enhanced Watermark */}
       <motion.div 
