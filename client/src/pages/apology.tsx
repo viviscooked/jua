@@ -23,7 +23,33 @@ export default function ApologyApp() {
     return () => clearTimeout(timer);
   }, []);
 
+  // Start music when user moves to step 1
+  useEffect(() => {
+    if (currentStep > 0) {
+      const audio = document.getElementById('background-music') as HTMLAudioElement;
+      if (audio && !isPlaying) {
+        audio.play().then(() => {
+          setIsPlaying(true);
+        }).catch((error) => {
+          console.log('Audio play failed:', error);
+        });
+      }
+    }
+  }, [currentStep, isPlaying]);
+
   const nextStep = () => {
+    // Try to start music on first interaction
+    if (!isPlaying) {
+      const audio = document.getElementById('background-music') as HTMLAudioElement;
+      if (audio) {
+        audio.play().then(() => {
+          setIsPlaying(true);
+        }).catch((error) => {
+          console.log('Audio play failed:', error);
+        });
+      }
+    }
+    
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
     }
@@ -36,6 +62,18 @@ export default function ApologyApp() {
 
 
   const handleResponse = (response: string) => {
+    // Try to start music on interaction
+    if (!isPlaying) {
+      const audio = document.getElementById('background-music') as HTMLAudioElement;
+      if (audio) {
+        audio.play().then(() => {
+          setIsPlaying(true);
+        }).catch((error) => {
+          console.log('Audio play failed:', error);
+        });
+      }
+    }
+    
     setSelectedResponse(response);
   };
 
@@ -461,35 +499,22 @@ export default function ApologyApp() {
         ))}
       </div>
 
-      {/* Hidden Audio Element with Auto-play */}
+      {/* Hidden Audio Element */}
       <audio 
         id="background-music"
         loop
-        autoPlay
         preload="auto"
         onLoadedData={() => {
           const audio = document.getElementById('background-music') as HTMLAudioElement;
           if (audio) {
             audio.volume = 0.3;
-            audio.play().catch(() => {
-              // Autoplay prevented, will try again on user interaction
-            });
-          }
-        }}
-        onCanPlay={() => {
-          if (currentStep > 0) {
-            const audio = document.getElementById('background-music') as HTMLAudioElement;
-            if (audio) {
-              audio.play().catch(() => {
-                // Autoplay prevented
-              });
-            }
           }
         }}
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onError={(e) => console.log('Audio error:', e)}
       >
+        <source src="/attached_assets/Cigarettes out the Window_1750248156965.mp3" type="audio/mpeg" />
         <source src="/attached_assets/Cigarettes out the Window_1750246076507.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
       </audio>
