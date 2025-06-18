@@ -3,7 +3,11 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-export default defineConfig({
+// 👇 This base is CRITICAL for GitHub Pages to work
+const basePath = "/jua/";
+
+export default defineConfig(async () => ({
+  base: basePath,
   plugins: [
     react(),
     runtimeErrorOverlay(),
@@ -11,21 +15,20 @@ export default defineConfig({
     process.env.REPL_ID !== undefined
       ? [
           await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
+            m.cartographer()
           ),
         ]
       : []),
   ],
   resolve: {
     alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+      "@": path.resolve(import.meta.dirname, "src"),
+      "@shared": path.resolve(import.meta.dirname, "../shared"),
+      "@assets": path.resolve(import.meta.dirname, "../attached_assets"),
     },
   },
-  root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
+    outDir: path.resolve(import.meta.dirname, "../dist/public"),
     emptyOutDir: true,
   },
   server: {
@@ -34,4 +37,4 @@ export default defineConfig({
       deny: ["**/.*"],
     },
   },
-});
+}));
